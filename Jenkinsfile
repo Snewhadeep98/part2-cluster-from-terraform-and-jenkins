@@ -3,7 +3,7 @@ pipeline {
     environment {
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
-        AWS_DEFAULT_REGION = "us-east-1"
+        AWS_DEFAULT_REGION = "eu-west-3"
     }
     stages {
         stage("Create an EKS Cluster") {
@@ -11,6 +11,8 @@ pipeline {
                 script {
                     dir('part2-cluster-from-terraform-and-jenkins/terraform-for-cluster') {
                         sh "terraform init"
+                        sh "terraform validate"
+                        sh "terraform plan"
                         sh "terraform apply -auto-approve"
                     }
                 }
@@ -20,7 +22,7 @@ pipeline {
             steps {
                 script {
                     dir('part2-cluster-from-terraform-and-jenkins/kubernetes') {
-                        sh "aws eks update-kubeconfig --name myjenkins-server-eks-cluster --region us-east-1"
+                        sh "aws eks update-kubeconfig --name myjenkins-server-eks-cluster --region eu-west-3"
                         sh "kubectl apply -f deployment.yaml"
                         sh "kubectl apply -f service.yaml"
                     }
