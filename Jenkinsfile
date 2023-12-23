@@ -46,7 +46,7 @@ pipeline {
             steps {
                 script {
                     dir('kubernetes') {
-                        sh "kubectl apply -f HPA.yml"
+                        sh "kubectl apply -f 03_HPA.yml"
 
                     }
                 }
