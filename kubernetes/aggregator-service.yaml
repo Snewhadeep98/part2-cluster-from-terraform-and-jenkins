@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx
+  name: aggregator-service
   labels:
-    app: nginx
+    app: aggregator-service
 spec:
   ports:
   - name: http
@@ -11,5 +11,5 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: nginx
+    app: aggregator-service
   type: LoadBalancer
