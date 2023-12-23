@@ -4,7 +4,35 @@ pipeline {
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
         AWS_DEFAULT_REGION = "eu-west-3"
+        registry = "871154751090.dkr.ecr.eu-west-2.amazonaws.com/aggregator-service"
     }
+    stages {
+        stage('Cloning Git') {
+            steps {
+                git branch: 'release/preprod', credentialsId: '97747c93-f16c-45c3-92b9-61dbe40721f6', url: 'git@bitbucket.org:ncuk/ncuk_aggregator_service.git'     
+            }
+        }
+        // Building Docker images
+        stage('Building image') {
+            steps {
+                script {
+                    // Use docker buildx to build the image with the appropriate tag
+                      sh 'docker build -t 871154751090.dkr.ecr.eu-west-2.amazonaws.com/aggregator-service:latest .'
+                }
+            }
+        }
+        // Uploading Docker images into AWS ECR
+        stage('Pushing to ECR') {
+            steps {
+                script {
+                    sh 'aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin 871154751090.dkr.ecr.eu-west-2.amazonaws.com'
+                    sh 'docker push 871154751090.dkr.ecr.eu-west-2.amazonaws.com/aggregator-service:latest'
+                }
+            }
+        }
+    } // Added a closing brace for stages block
+} // Added a closing brace for pipeline block
+
     stages {
         stage("Create an EKS Cluster") {
             steps {
