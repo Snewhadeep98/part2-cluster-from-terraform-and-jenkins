@@ -30,10 +30,9 @@ pipeline {
                 }
             }
         }
-    } // Added a closing brace for stages block
+    // Added a closing brace for stages block
  // Added a closing brace for pipeline block
 
-    stages {
         stage("Create an EKS Cluster") {
             steps {
                 script {
