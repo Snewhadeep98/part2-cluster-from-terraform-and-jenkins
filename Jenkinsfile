@@ -42,5 +42,15 @@ pipeline {
                 }
             }
         }
+        stage("Configure Auto-Scaling") {
+            steps {
+                script {
+                    dir('kubernetes') {
+                        sh "kubectl apply -f HPA.yml"
+
+                    }
+                }
+            }
+        }
     }
 }
