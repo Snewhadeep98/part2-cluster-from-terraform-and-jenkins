@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Cloning Git') {
             steps {
-                git branch: 'release/preprod', credentialsId: '97747c93-f16c-45c3-92b9-61dbe40721f6', url: 'git@bitbucket.org:ncuk/ncuk_aggregator_service.git'     
+                git branch: 'release/preprod', credentialsId: '06ca9a02-ed80-432e-8918-9fb25359c39d', url: 'git@bitbucket.org:ncuk/ncuk_aggregator_service.git'
             }
         }
         // Building Docker images
