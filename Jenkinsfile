@@ -29,5 +29,18 @@ pipeline {
                 }
             }
         }
+         stage("Metrics Server Installation") {
+            steps {
+                script {
+                    dir('kubernetes') {
+                        sh "kubectl apply -f metrics-apiservice.yaml"
+                        sh "kubectl apply -f metrics-rbac.yaml"
+                        sh "kubectl apply -f metrics-server-deployment.yaml"
+                        sh "kubectl apply -f metrics-server-service.yaml"
+                        sh "kubectl apply -f metrics-serviceaccount.yaml"
+                    }
+                }
+            }
+        }
     }
 }
